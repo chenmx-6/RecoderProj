@@ -36,7 +36,7 @@ public class PlayListCollection {
 
 	}
 
-	public PlayList searchPlayListByname(String playListName) {
+	public PlayList searchPlayListByName(String playListName) {
 
 		int flag = 0;
 		for (String key : playListMap.keySet()) {

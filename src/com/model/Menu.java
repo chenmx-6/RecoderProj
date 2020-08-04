@@ -3,6 +3,7 @@ package com.model;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.Scanner;
 
 public class Menu {
@@ -11,12 +12,12 @@ public class Menu {
 	public void Menu() {
 	}
 	public void menu() {
-		System.out.println("************************************");
+		System.out.println("*****************************************************");
 		System.out.println("                主菜单                          ");
 		System.out.println("            1--播放列表管理                  ");
 		System.out.println("            2--播放器管理                     ");
 		System.out.println("            0--退出                                ");
-		System.out.println("************************************");
+		System.out.println("*****************************************************");
 		System.out.println("请输入对应数字进行操作：                         ");
 		Scanner sc=new Scanner(System.in);
 		int result=sc.nextInt();
@@ -24,7 +25,9 @@ public class Menu {
 		case 1:this.playListMenu();break;
 		case 2:this.playerMenu();break;
 		case 0:return;
+		default:System.out.println("输入错误！");
 		}
+		sc.close();
 	}
 	public void playListMenu() {
 		System.out.println("*****************************************************");
@@ -52,6 +55,7 @@ public class Menu {
 		case 6:deleteSong();break;
 		case 7:displaySong();break;
 		case 8:exportToFile();break;
+		default:System.out.println("输入错误！");
 		}
 		
 	}
@@ -70,6 +74,10 @@ public class Menu {
 		switch(result) {
 		case 0:this.menu();break;
 		case 1:this.addListToPlayer();break;
+		case 2:this.deletePlayListFromPlayer();break;
+		case 3:this.searchListByName();break;
+		case 4:this.displayAllList();break;
+		default:System.out.println("输入错误！");
 		}
 	}
 	
@@ -104,7 +112,6 @@ public class Menu {
 			String songSinger=sc.next();
 			Song s1=new Song(songId,songName,songSinger);
 			this.mainList.addToPlayList(s1);
-			sc.close();
 			this.mainList.displayAllSong();
 	}
 	
@@ -119,7 +126,7 @@ public class Menu {
 		System.out.println("将歌曲添加到普通播放列表  ");
 		System.out.println("请输入要添加的播放列表的名称：");
 		String listName=sc.next();
-		PlayList pl=this.player.searchPlayListByname(listName);
+		PlayList pl=this.player.searchPlayListByName(listName);
 		if(pl==null) {
 			System.out.println("没有该播放列表，是否新建该歌单：（1：是       0：否）:");
 			int isSetNewList=sc.nextInt();
@@ -127,7 +134,7 @@ public class Menu {
 				this.addListToPlayer(listName);
 			}
 		}
-		pl=this.player.searchPlayListByname(listName);
+		pl=this.player.searchPlayListByName(listName);
 		if(pl==null) {
 			flag1=0;
 		}
@@ -148,7 +155,6 @@ public class Menu {
 		if(flag1*flag2==1) {
 			pl.addToPlayList(s);
 		}
-		sc.close();
 		this.playListMenu();
 	}
 	
@@ -160,7 +166,7 @@ public class Menu {
 		Scanner sc=new Scanner(System.in);
 		System.out.println("请输入要查找的播放列表名称：");
 		String listName=sc.next();
-		PlayList pl=this.player.searchPlayListByname(listName);
+		PlayList pl=this.player.searchPlayListByName(listName);
 		if(pl==null) {
 			System.out.println("没有该播放列表，是否新建该歌单：（1：是       0：否）:");
 			int isSetNewList=sc.nextInt();
@@ -168,7 +174,7 @@ public class Menu {
 				this.addListToPlayer(listName);
 			}
 		}
-		pl=this.player.searchPlayListByname(listName);
+		pl=this.player.searchPlayListByName(listName);
 		if(pl==null) {
 			flag1=0;
 		}
@@ -179,11 +185,11 @@ public class Menu {
 			if(s==null) {
 				System.out.println("该歌曲不存在！");
 			}else {
+				System.out.println("该歌曲存在！");
+				System.out.println(s);
 				pl.displayAllSong();
-				mainList.displayAllSong();
 			}
 		}
-		sc.close();
 		this.playListMenu();
 	}
 	
@@ -193,7 +199,7 @@ public class Menu {
 		Scanner sc=new Scanner(System.in);
 		System.out.println("请输入要查找的播放列表名称：");
 		String listName=sc.next();
-		PlayList pl=this.player.searchPlayListByname(listName);
+		PlayList pl=this.player.searchPlayListByName(listName);
 		if(pl==null) {
 			System.out.println("没有该播放列表，是否新建该歌单：（1：是       0：否）:");
 			int isSetNewList=sc.nextInt();
@@ -201,7 +207,7 @@ public class Menu {
 				this.addListToPlayer(listName);
 			}
 		}
-		pl=this.player.searchPlayListByname(listName);
+		pl=this.player.searchPlayListByName(listName);
 		if(pl==null) {
 			flag1=0;
 		}
@@ -212,11 +218,11 @@ public class Menu {
 			if(s==null) {
 				System.out.println("该歌曲不存在！");
 			}else {
+				System.out.println("该歌曲存在！");
+				System.out.println(s);
 				pl.displayAllSong();
-				mainList.displayAllSong();
 			}
 		}
-		sc.close();
 		this.playListMenu();
 	}
 	
@@ -244,7 +250,6 @@ public class Menu {
 			System.out.println("修改成功！");
 			System.out.println(s);
 		}
-		sc.close();
 		this.playListMenu();
 	}
 	
@@ -264,7 +269,6 @@ public class Menu {
 			System.out.println("该歌曲已删除！");
 		}
 		this.mainList.displayAllSong();
-		sc.close();
 		this.playListMenu();
 	}
 	//菜单1.7
@@ -273,13 +277,12 @@ public class Menu {
 		System.out.println("*****************************************************");
 		System.out.println("请输入要展示的播放列表名称");
 		String listName=sc.next();
-	    PlayList pl=this.player.searchPlayListByname(listName);
+	    PlayList pl=this.player.searchPlayListByName(listName);
 	    if(pl==null) {
 	    	System.out.println("NotFound!");
 	    }else {
 	    	pl.displayAllSong();
 	    }
-	    sc.close();
 		this.playListMenu();
 	}
 	
@@ -301,7 +304,6 @@ public class Menu {
 		String listName=sc.next();
 		PlayList pl=new PlayList(listName);
 		this.player.addPlayList(pl);
-		sc.close();
 		this.playerMenu();
 	}
 	public void addListToPlayer(String name) {
@@ -316,7 +318,7 @@ public class Menu {
 		System.out.println("*****************************************************");
 		System.out.println("请输入要删除的播放列表名称：");
 		String listName=sc.next();
-		PlayList pl=player.searchPlayListByname(listName);
+		PlayList pl=player.searchPlayListByName(listName);
 		if(pl==null) {
 			System.out.println("没有该列表！");
 		}else {
@@ -327,6 +329,27 @@ public class Menu {
 	}
 	
 	//菜单2.3
+	public void searchListByName() {
+		Scanner sc=new Scanner(System.in);
+		System.out.println("*****************************************************");
+		System.out.println("请输入要查找的播放列表名称：");
+		String listName=sc.next();
+		PlayList pl=player.searchPlayListByName(listName);
+		pl.displayAllSong();
+		this.playerMenu();
+	}
+	
+	
+	//菜单2.4
+	public void displayAllList() {
+		System.out.println("*****************************************************");
+		System.out.println("显示所有播放列表名称：");
+		Iterator<String> it=this.player.getPlayListMap().keySet().iterator();
+		while(it.hasNext()) {
+			System.out.println(it.next());
+		}
+		this.playerMenu();
+	} 
 	public PlayList getMainList() {
 		return mainList;
 	}
